@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: teste_leek
+      POSTGRES_USER: postgres  
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
