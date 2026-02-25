@@ -1,74 +1,75 @@
-# Teste Leek Soluções: Vaga Desenvolvedor Fullstack Pleno
+# Task Manager - Fullstack (NestJS + Next.js)
 
-Segue abaixo as instruções para a execução do teste.
+Aplicação simples de gerenciamento de tarefas com autenticação JWT.
 
----
+## Estrutura
 
-### Instruções
+```
+backend/
+  src/
+    main.ts              # Inicialização do NestJS
+    app.module.ts        # Módulo único (registra tudo)
+    prisma.service.ts    # Conexão com banco de dados
+    auth.controller.ts   # Rotas de login e registro
+    auth.service.ts      # Lógica de autenticação + JWT
+    auth.guard.ts        # Guard que valida o token JWT
+    tasks.controller.ts  # Rotas de CRUD de tarefas
+    tasks.service.ts     # Lógica de tarefas + Prisma
+  prisma/
+    schema.prisma        # Modelos User e Task
 
-1. **Faça um fork desse projeto** para a sua conta pessoal do GitHub.
-2. **Desenvolva a aplicação** conforme as Especificações Técnicas abaixo.
-3. **Crie um README** com as instruções para compilar, testar e rodar o projeto.
-4. O link do repositório deverá ser enviado para o e-mail **gabriel@leeksolucoes.com.br** com o título **Teste Vaga Fullstack**.
+frontend/
+  src/
+    app/
+      page.tsx           # Redirect para /login ou /tasks
+      login/page.tsx     # Tela de login
+      register/page.tsx  # Tela de registro
+      tasks/page.tsx     # Tela de tarefas (CRUD completo)
+    lib/
+      api.ts             # Funções de chamada à API
+```
 
----
+## Como rodar
 
-### Especificações Técnicas
+### 1. Banco de dados (PostgreSQL via Docker)
 
-#### Funcionalidades
+```bash
+docker-compose up -d
+```
 
-1. **Autenticação de Usuário**
+### 2. Backend
 
-   - Permitir que o usuário se registre e faça login usando autenticação JWT.
-   - Proteger rotas para que apenas usuários autenticados possam acessar a aplicação.
+```bash
+cd backend
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
+npm run start:dev
+```
 
-2. **CRUD de Tarefas**
+O backend roda em `http://localhost:3000`.
 
-   - O usuário autenticado deve poder criar, visualizar, atualizar e excluir tarefas.
-   - Cada tarefa deve ter:
-     - Título
-     - Descrição
-     - Status (ex.: "pendente", "em progresso", "concluída")
-     - Datas de criação e conclusão (opcional)
+### 3. Frontend
 
-3. **Interface de Usuário**
-   - Criar uma interface com:
-     - Tela de login e registro
-     - Tela de listagem e gerenciamento de tarefas
-     - Modal de confirmação para remoção de tarefa
-   - Aplicar um design básico e responsivo
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-#### Requisitos Técnicos
+O frontend roda em `http://localhost:3001`.
 
-1. **Front-end**: Desenvolver em **Next.js**.
-   - Implementar rotas protegidas e controle de autenticação.
-   - Estilizar com CSS ou qualquer pré-processador.
-2. **Back-end**: Desenvolver em **NestJS**.
-   - Implementar rotas REST para gerenciar as tarefas e autenticação.
-   - Utilizar **Prisma** ou **TypeORM** para gerenciar o banco de dados relacional.
-3. **Banco de Dados**
-   - Configurar um banco de dados relacional **PostgreSQL**.
-4. **Validação e Boas Práticas**
-   - Implementar validação dos dados (como uso de class-validator para validações no NestJS).
-   - Proteger rotas de back-end usando middlewares de autenticação.
+## Variáveis de ambiente
 
----
+**Backend** — crie um `.env` em `backend/`:
 
-### Pontos Extras
+```
+DATABASE_URL="postgresql://postgres:password@localhost:5432/teste_leek"
+JWT_SECRET="segredo-jwt"
+```
 
-- Dockerização.
-- Criar uma documentação da api com **Swagger**.
+**Frontend** — usa `http://localhost:3000` por padrão. Para mudar, crie `.env.local` em `frontend/`:
 
----
-
-### O que avaliaremos em seu teste
-
-1. **Organização do Projeto**
-2. **Qualidade e Estrutura do Código**
-3. **Componentização e Lógica**
-4. **Alcance dos Objetivos Propostos**
-5. **Atenção aos Detalhes e Boas Práticas**
-
----
-
-Boa sorte! 😉
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
