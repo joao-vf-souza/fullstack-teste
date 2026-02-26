@@ -61,13 +61,6 @@ O frontend roda em `http://localhost:3001`.
 
 ## Variáveis de ambiente
 
-**Backend** — crie um `.env` em `backend/`:
-
-```
-DATABASE_URL="postgresql://postgres:password@localhost:5432/teste_leek"
-JWT_SECRET="segredo-jwt"
-```
-
 **Frontend** — usa `http://localhost:3000` por padrão. Para mudar, crie `.env.local` em `frontend/`:
 
 ```
